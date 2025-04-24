@@ -4,7 +4,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Resvg } from "@resvg/resvg-js";
 import type { ReactNode } from "react";
-import satori, { type SatoriOptions, type Font as FontOptions } from "satori";
+import satori, {
+  type SatoriOptions,
+  type Font as FontOptions,
+  type SatoriNode,
+} from "satori";
 
 let __dirname = fileURLToPath(path.dirname(import.meta.url));
 
@@ -68,9 +72,8 @@ type Options = (
     languageCode: string,
     segment: string,
   ) => Promise<string | Array<FontOptions>>;
-  // @TODO: support?
-  // tailwindConfig?: TwConfig;
-  // onNodeDetected?: (node: SatoriNode) => void;
+  tailwindConfig?: SatoriOptions["tailwindConfig"];
+  onNodeDetected?: (node: SatoriNode) => void;
 };
 
 export async function generateImage(

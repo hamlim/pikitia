@@ -1,8 +1,8 @@
 {
   "name": "pikitia",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A minimal wrapper around satori to generate images using React!",
-  "homepage": "TODO",
+  "homepage": "https://pikitia-docs.mhamlin.workers.dev/",
   "author": {
     "name": "Matt Hamlin",
     "email": "matthewjameshamlin@gmail.com"
