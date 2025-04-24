@@ -1,11 +1,12 @@
 import { Buffer } from "node:buffer";
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { Resvg } from "@resvg/resvg-js";
 import type { ReactNode } from "react";
-import satori, { type SatoriOptions } from "satori";
+import satori, { type SatoriOptions, type Font as FontOptions } from "satori";
 
-let __dirname = path.dirname(import.meta.url);
+let __dirname = fileURLToPath(path.dirname(import.meta.url));
 
 let interBuffer = readFileSync(
   path.join(
@@ -47,16 +48,41 @@ async function defaultLoadAdditionalAsset(code: string, segment: string) {
   return `missing-segment - ${code} - ${segment}`;
 }
 
+type Options = (
+  | {
+      width: number;
+      height: number;
+    }
+  | {
+      width: number;
+    }
+  | {
+      height: number;
+    }
+) & {
+  fonts?: FontOptions[];
+  embedFont?: boolean;
+  debug?: boolean;
+  graphemeImages?: Record<string, string>;
+  loadAdditionalAsset?: (
+    languageCode: string,
+    segment: string,
+  ) => Promise<string | Array<FontOptions>>;
+  // @TODO: support?
+  // tailwindConfig?: TwConfig;
+  // onNodeDetected?: (node: SatoriNode) => void;
+};
+
 export async function generateImage(
   element: ReactNode,
-  options: SatoriOptions,
-) {
+  options: Options,
+): Promise<Buffer> {
   let svg = await satori(element, {
     ...options,
     fonts: options.fonts ? [...options.fonts, inter] : [inter],
     loadAdditionalAsset:
       options.loadAdditionalAsset ?? defaultLoadAdditionalAsset,
-  });
+  } as SatoriOptions);
 
   let resvg = new Resvg(svg, {});
   let pngData = resvg.render();
