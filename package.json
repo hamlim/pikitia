@@ -1,0 +1,46 @@
+{
+  "name": "pikitia",
+  "version": "0.0.1",
+  "description": "A minimal wrapper around satori to generate images using React!",
+  "homepage": "TODO",
+  "author": {
+    "name": "Matt Hamlin",
+    "email": "matthewjameshamlin@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamlim/pikitia.git"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.js",
+  "files": ["dist", "assets", "CHANGELOG.md", "README.md"],
+  "type": "module",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/bun": "1.1.11",
+    "@types/node": "22.14.1",
+    "@types/react": "19.1.2",
+    "@types/react-dom": "19.1.2",
+    "react": "0.0.0-experimental-914319ae-20250423",
+    "tsdown": "0.9.5",
+    "typescript": "5.4.5"
+  },
+  "scripts": {
+    "dev": "tsdown --watch",
+    "build": "tsdown",
+    "type-check": "tsc -p ./tsconfig.json",
+    "lint": "biome lint ./src/",
+    "test": "bun test",
+    "prepub": "bun run build && bun run type-check && bun run lint && bun run test",
+    "pub": "npm publish --access public"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "satori": "0.12.2"
+  }
+}
